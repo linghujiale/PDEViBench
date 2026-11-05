@@ -1,0 +1,992 @@
+{
+  "arms": {
+    "choice_free_no_code": {
+      "experiment_id": "pcsep128_nocodeguide_codex_gpt55_scipy_n1_20260802",
+      "guide_root": "agents/prompts/library_guides_nocode",
+      "guide_sha256": "f490b43d13dcd8a17bc34e116bcb714485d54d419eec35527dada6ed9acdf6bc",
+      "rendered_prompt_bundle_sha256": "17e6e534dba2d2f9a552506680eb5bc3137e9cabaea02e433a8f0f22cef2f3ac"
+    },
+    "full_guide": {
+      "experiment_id": "pcsep128_fullguide_codex_gpt55_scipy_n1_20260802",
+      "guide_root": "agents/prompts/library_guides",
+      "guide_sha256": "33679c909d59d2f86b34ccf33d6b2dd8c4e4b3ecdc9f7556d4acbad75b908700",
+      "rendered_prompt_bundle_sha256": "6f9b583e12871d16aaab9a17df5a2ea2608061ad860bb63dee70c535948d57c5"
+    },
+    "prescription_only": {
+      "experiment_id": "pcsep128_prescriptionguide_codex_gpt55_scipy_n1_20260802",
+      "guide_root": "agents/prompts/library_guides_prescription_only",
+      "guide_sha256": "f5d76423b254ca5d1aa7963ea8df3836ffc4d7d55b468b95ed77983665f1007a",
+      "rendered_prompt_bundle_sha256": "3be011a08a2aac71621ceea35102657a8c5fd33aafbe0e68ba969aa214205636"
+    }
+  },
+  "assets": {
+    "agents/cc_runner.py": "c8a8ae395ad81eb1f1255b7eea98fdc3fd9725035491dee937e275b5c5965c4f",
+    "agents/codex_runner.py": "909f36826e02d6086ff4e74ebc9155dcd70d85b02c700b29e0ee4cfaed83d375",
+    "agents/prompts/case_template.md": "24e981e8848a6eed1fd6d15d4e48c25e9e0114b024c004b5d255771a2b71298a",
+    "agents/prompts/library_guides/scipy.md": "33679c909d59d2f86b34ccf33d6b2dd8c4e4b3ecdc9f7556d4acbad75b908700",
+    "agents/prompts/library_guides_nocode/scipy.md": "f490b43d13dcd8a17bc34e116bcb714485d54d419eec35527dada6ed9acdf6bc",
+    "agents/prompts/library_guides_prescription_only/scipy.md": "f5d76423b254ca5d1aa7963ea8df3836ffc4d7d55b468b95ed77983665f1007a",
+    "analysis/axis_models.py": "249b52fae69dbc0c3b60c9b0d1ba16eaffb2075161ff9080b7aa9fc54f1addd6",
+    "benchmark/cases/prescription_code_separation_128_case_ids.txt": "fb60bb08c2293d0023e68c8b488187d3c31948e36a9650439cde965b49b35cb2",
+    "evaluator/accuracy.py": "3cbdd8fd343ec624bf2a808c6f30ffae47f87d73c38a527d3e555663706f6441",
+    "evaluator/host_eval.py": "d5a57534808449d868fd6f5903309534946985ca228e5527a293fcc823a0b843",
+    "evaluator/runtime.py": "3787f4d744443a27eb244e501bc74614a4e1fb4957263b917fdfc2d8caefca6f",
+    "evaluator/thresholds.py": "67fba6ecf753ed96e2fcbee4ac7bd4f6b106483d1d46111dc4490a759e12c730",
+    "scripts/analyze_nocode_noninferiority.py": "441584f8f6e94b4e9613b8a6f4a3ae108f907d97d1ce30642701cff87f688936",
+    "scripts/analyze_prescription_code_separation.py": "904dbb5ac6c9d99eae99172edc32c993a0f522de0305912203819246c4aeed34",
+    "scripts/check_prescription_code_health.py": "dd20214b977bb379c052f69c5c4557ababba7e78a4ee73b8e796de438ff1750f",
+    "scripts/launch_prescription_code_separation.sh": "53bc3f477fc0a6b6e545055f09f935e249e9dc197457a9bb1decf78e4b87e7db",
+    "scripts/prepare_prescription_code_separation.py": "8dd02199ea94088e580140def378a05e6b4249a9f65245bd7b13529730da6667",
+    "scripts/queue_prescription_code_separation.sh": "6cb9fcbee902d9619accb39d1e6b1c1039e9fd98d33dea77f900690298092538",
+    "scripts/run_case_batch.py": "0efcbb949d1b09984c406557596d08fa699cfa5d1168418c3ead490f01476add",
+    "scripts/run_phase2_wave1.py": "28dd3fe6d90ac026c625e41214759783616c4c07b49b0bd6bea256c52e7e8b77",
+    "tests/test_prescription_code_separation.py": "d9fe67a59cd9becb1e48f46ef3eaed12adb0123c64806bc65603f834849defc7"
+  },
+  "axis_counts": {
+    "B": {
+      "0": 64,
+      "1": 64
+    },
+    "C": {
+      "0": 64,
+      "1": 64
+    },
+    "D": {
+      "0": 64,
+      "1": 64
+    },
+    "G": {
+      "0": 64,
+      "1": 64
+    },
+    "O": {
+      "0": 64,
+      "1": 64
+    },
+    "S": {
+      "0": 64,
+      "1": 64
+    }
+  },
+  "binary_cell_counts": {
+    "O0G0B0D0S0C0": 2,
+    "O0G0B0D0S0C1": 2,
+    "O0G0B0D0S1C0": 2,
+    "O0G0B0D0S1C1": 2,
+    "O0G0B0D1S0C0": 2,
+    "O0G0B0D1S0C1": 2,
+    "O0G0B0D1S1C0": 2,
+    "O0G0B0D1S1C1": 2,
+    "O0G0B1D0S0C0": 2,
+    "O0G0B1D0S0C1": 2,
+    "O0G0B1D0S1C0": 2,
+    "O0G0B1D0S1C1": 2,
+    "O0G0B1D1S0C0": 2,
+    "O0G0B1D1S0C1": 2,
+    "O0G0B1D1S1C0": 2,
+    "O0G0B1D1S1C1": 2,
+    "O0G1B0D0S0C0": 2,
+    "O0G1B0D0S0C1": 2,
+    "O0G1B0D0S1C0": 2,
+    "O0G1B0D0S1C1": 2,
+    "O0G1B0D1S0C0": 2,
+    "O0G1B0D1S0C1": 2,
+    "O0G1B0D1S1C0": 2,
+    "O0G1B0D1S1C1": 2,
+    "O0G1B1D0S0C0": 2,
+    "O0G1B1D0S0C1": 2,
+    "O0G1B1D0S1C0": 2,
+    "O0G1B1D0S1C1": 2,
+    "O0G1B1D1S0C0": 2,
+    "O0G1B1D1S0C1": 2,
+    "O0G1B1D1S1C0": 2,
+    "O0G1B1D1S1C1": 2,
+    "O1G0B0D0S0C0": 2,
+    "O1G0B0D0S0C1": 2,
+    "O1G0B0D0S1C0": 2,
+    "O1G0B0D0S1C1": 2,
+    "O1G0B0D1S0C0": 2,
+    "O1G0B0D1S0C1": 2,
+    "O1G0B0D1S1C0": 2,
+    "O1G0B0D1S1C1": 2,
+    "O1G0B1D0S0C0": 2,
+    "O1G0B1D0S0C1": 2,
+    "O1G0B1D0S1C0": 2,
+    "O1G0B1D0S1C1": 2,
+    "O1G0B1D1S0C0": 2,
+    "O1G0B1D1S0C1": 2,
+    "O1G0B1D1S1C0": 2,
+    "O1G0B1D1S1C1": 2,
+    "O1G1B0D0S0C0": 2,
+    "O1G1B0D0S0C1": 2,
+    "O1G1B0D0S1C0": 2,
+    "O1G1B0D0S1C1": 2,
+    "O1G1B0D1S0C0": 2,
+    "O1G1B0D1S0C1": 2,
+    "O1G1B0D1S1C0": 2,
+    "O1G1B0D1S1C1": 2,
+    "O1G1B1D0S0C0": 2,
+    "O1G1B1D0S0C1": 2,
+    "O1G1B1D0S1C0": 2,
+    "O1G1B1D0S1C1": 2,
+    "O1G1B1D1S0C0": 2,
+    "O1G1B1D1S0C1": 2,
+    "O1G1B1D1S1C0": 2,
+    "O1G1B1D1S1C1": 2
+  },
+  "case_bank": {
+    "path": "benchmark/cases/axis_balanced_1024.jsonl",
+    "sha256": "cd2b9c6a82f3187691c6d8d8a2ff449a68201e542c733e75854a220cced2018d"
+  },
+  "case_ids": [
+    "O0G0B0D0S0C0_s900003_004",
+    "O0G0B0D0S0C0_s900004_005",
+    "O0G0B0D0S0C1_s901003_020",
+    "O0G0B0D0S0C1_s901004_021",
+    "O0G0B0D0S1C0_s902003_036",
+    "O0G0B0D0S1C0_s902004_037",
+    "O0G0B0D0S1C1_s903003_052",
+    "O0G0B0D0S1C1_s903004_053",
+    "O0G0B0D1S0C0_s904003_068",
+    "O0G0B0D1S0C0_s904004_069",
+    "O0G0B0D1S0C1_s905003_084",
+    "O0G0B0D1S0C1_s905004_085",
+    "O0G0B0D1S1C0_s906003_100",
+    "O0G0B0D1S1C0_s906004_101",
+    "O0G0B0D1S1C1_s907003_116",
+    "O0G0B0D1S1C1_s907004_117",
+    "O0G0B1D0S0C0_s908003_132",
+    "O0G0B1D0S0C0_s908004_133",
+    "O0G0B1D0S0C1_s909003_148",
+    "O0G0B1D0S0C1_s909004_149",
+    "O0G0B1D0S1C0_s910003_164",
+    "O0G0B1D0S1C0_s910004_165",
+    "O0G0B1D0S1C1_s911003_180",
+    "O0G0B1D0S1C1_s911004_181",
+    "O0G0B1D1S0C0_s912003_196",
+    "O0G0B1D1S0C0_s912004_197",
+    "O0G0B1D1S0C1_s913003_212",
+    "O0G0B1D1S0C1_s913004_213",
+    "O0G0B1D1S1C0_s914003_228",
+    "O0G0B1D1S1C0_s914004_229",
+    "O0G0B1D1S1C1_s915003_244",
+    "O0G0B1D1S1C1_s915004_245",
+    "O0G1B0D0S0C0_s916003_260",
+    "O0G1B0D0S0C0_s916004_261",
+    "O0G1B0D0S0C1_s917003_276",
+    "O0G1B0D0S0C1_s917004_277",
+    "O0G1B0D0S1C0_s918003_292",
+    "O0G1B0D0S1C0_s918004_293",
+    "O0G1B0D0S1C1_s919003_308",
+    "O0G1B0D0S1C1_s919004_309",
+    "O0G1B0D1S0C0_s920003_324",
+    "O0G1B0D1S0C0_s920004_325",
+    "O0G1B0D1S0C1_s921003_340",
+    "O0G1B0D1S0C1_s921004_341",
+    "O0G1B0D1S1C0_s922003_356",
+    "O0G1B0D1S1C0_s922004_357",
+    "O0G1B0D1S1C1_s923003_372",
+    "O0G1B0D1S1C1_s923004_373",
+    "O0G1B1D0S0C0_s924003_388",
+    "O0G1B1D0S0C0_s924004_389",
+    "O0G1B1D0S0C1_s925003_404",
+    "O0G1B1D0S0C1_s925004_405",
+    "O0G1B1D0S1C0_s926003_420",
+    "O0G1B1D0S1C0_s926004_421",
+    "O0G1B1D0S1C1_s927003_436",
+    "O0G1B1D0S1C1_s927004_437",
+    "O0G1B1D1S0C0_s928003_452",
+    "O0G1B1D1S0C0_s928004_453",
+    "O0G1B1D1S0C1_s929003_468",
+    "O0G1B1D1S0C1_s929004_469",
+    "O0G1B1D1S1C0_s930003_484",
+    "O0G1B1D1S1C0_s930004_485",
+    "O0G1B1D1S1C1_s931003_500",
+    "O0G1B1D1S1C1_s931004_501",
+    "O1G0B0D0S0C0_s932003_516",
+    "O1G0B0D0S0C0_s932004_517",
+    "O1G0B0D0S0C1_s933003_532",
+    "O1G0B0D0S0C1_s933004_533",
+    "O1G0B0D0S1C0_s934003_548",
+    "O1G0B0D0S1C0_s934004_549",
+    "O1G0B0D0S1C1_s935003_564",
+    "O1G0B0D0S1C1_s935004_565",
+    "O1G0B0D1S0C0_s936003_580",
+    "O1G0B0D1S0C0_s936004_581",
+    "O1G0B0D1S0C1_s937003_596",
+    "O1G0B0D1S0C1_s937004_597",
+    "O1G0B0D1S1C0_s938003_612",
+    "O1G0B0D1S1C0_s938004_613",
+    "O1G0B0D1S1C1_s939003_628",
+    "O1G0B0D1S1C1_s939004_629",
+    "O1G0B1D0S0C0_s940003_644",
+    "O1G0B1D0S0C0_s940004_645",
+    "O1G0B1D0S0C1_s941003_660",
+    "O1G0B1D0S0C1_s941004_661",
+    "O1G0B1D0S1C0_s942003_676",
+    "O1G0B1D0S1C0_s942004_677",
+    "O1G0B1D0S1C1_s943003_692",
+    "O1G0B1D0S1C1_s943004_693",
+    "O1G0B1D1S0C0_s944003_708",
+    "O1G0B1D1S0C0_s944004_709",
+    "O1G0B1D1S0C1_s945003_724",
+    "O1G0B1D1S0C1_s945004_725",
+    "O1G0B1D1S1C0_s946003_740",
+    "O1G0B1D1S1C0_s946004_741",
+    "O1G0B1D1S1C1_s947003_756",
+    "O1G0B1D1S1C1_s947004_757",
+    "O1G1B0D0S0C0_s948003_772",
+    "O1G1B0D0S0C0_s948004_773",
+    "O1G1B0D0S0C1_s949003_788",
+    "O1G1B0D0S0C1_s949004_789",
+    "O1G1B0D0S1C0_s950003_804",
+    "O1G1B0D0S1C0_s950004_805",
+    "O1G1B0D0S1C1_s951003_820",
+    "O1G1B0D0S1C1_s951004_821",
+    "O1G1B0D1S0C0_s952003_836",
+    "O1G1B0D1S0C0_s952004_837",
+    "O1G1B0D1S0C1_s953003_852",
+    "O1G1B0D1S0C1_s953004_853",
+    "O1G1B0D1S1C0_s954003_868",
+    "O1G1B0D1S1C0_s954004_869",
+    "O1G1B0D1S1C1_s955003_884",
+    "O1G1B0D1S1C1_s955004_885",
+    "O1G1B1D0S0C0_s956003_900",
+    "O1G1B1D0S0C0_s956004_901",
+    "O1G1B1D0S0C1_s957003_916",
+    "O1G1B1D0S0C1_s957004_917",
+    "O1G1B1D0S1C0_s958003_932",
+    "O1G1B1D0S1C0_s958004_933",
+    "O1G1B1D0S1C1_s959003_948",
+    "O1G1B1D0S1C1_s959004_949",
+    "O1G1B1D1S0C0_s960003_964",
+    "O1G1B1D1S0C0_s960004_965",
+    "O1G1B1D1S0C1_s961003_980",
+    "O1G1B1D1S0C1_s961004_981",
+    "O1G1B1D1S1C0_s962003_996",
+    "O1G1B1D1S1C0_s962004_997",
+    "O1G1B1D1S1C1_s963003_1012",
+    "O1G1B1D1S1C1_s963004_1013"
+  ],
+  "codex_cli_version": "codex-cli 0.133.0",
+  "created_at": "2026-08-02T02:06:54.042575+00:00",
+  "execution": {
+    "eval_mode": "host",
+    "expected_calls_per_arm": 128,
+    "expected_calls_total": 384,
+    "library_label": "scipy",
+    "max_turns_recorded": 30,
+    "n_arms": 3,
+    "n_cases": 128,
+    "paired_launch": true,
+    "parallel_workers_per_arm": 1,
+    "run_indices": [
+      0
+    ],
+    "waits_for_prior_experiments": true,
+    "wall_timeout_seconds": 600
+  },
+  "freeze_status": "prospective_before_arm_outcomes",
+  "frozen_case_ids": {
+    "path": "benchmark/cases/prescription_code_separation_128_case_ids.txt",
+    "sha256": "fb60bb08c2293d0023e68c8b488187d3c31948e36a9650439cde965b49b35cb2"
+  },
+  "git_head_at_freeze": "0f591c28aef67bc1dd9066061a07b334c9ad0c9d",
+  "model": {
+    "model_id": "gpt-5.5",
+    "provider": "openai"
+  },
+  "name": "pdevi_prescription_code_separation_128x1x3",
+  "non_guide_prompt_bundle_sha256": "358c5c4e2da5cbd7d6903a2a007b2d52aa8fab3d2b05ba7718575e34e7e1444b",
+  "ordered_confirmatory_tests": [
+    {
+      "alternative": "delta > -0.05",
+      "contrast": [
+        "prescription_only",
+        "full_guide"
+      ],
+      "margin": 0.05,
+      "method": "Newcombe paired score interval method 10",
+      "name": "prescription_only_minus_full_noninferiority",
+      "null": "delta <= -0.05",
+      "one_sided_confidence": 0.95,
+      "order": 1
+    },
+    {
+      "alternative": "delta > 0",
+      "contrast": [
+        "prescription_only",
+        "choice_free_no_code"
+      ],
+      "margin": 0.0,
+      "method": "Newcombe paired score interval method 10",
+      "name": "prescription_only_minus_choice_free_superiority",
+      "null": "delta <= 0",
+      "one_sided_confidence": 0.95,
+      "order": 2,
+      "tested_only_if": "test_1_passed"
+    }
+  ],
+  "prior_panel_overlap": {
+    "n_overlap": 0,
+    "paths": [
+      "benchmark/cases/scaffold_ablation_64_case_ids.txt",
+      "benchmark/cases/nocode_noninferiority_128_case_ids.txt"
+    ]
+  },
+  "reference_bundle_sha256": "706a190bbc15f6a9183c1b899cadbb48b17870532cd1df34b17888a75f390fd1",
+  "references": [
+    {
+      "case_id": "O0G0B0D0S0C0_s900003_004",
+      "path": "benchmark/reference/cases/O0G0B0D0S0C0_s900003_004.npz",
+      "sha256": "d1c72145250232e28bd9289ada8290118ad9281fbc42442d73a215ab5f1ba768"
+    },
+    {
+      "case_id": "O0G0B0D0S0C0_s900004_005",
+      "path": "benchmark/reference/cases/O0G0B0D0S0C0_s900004_005.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D0S0C1_s901003_020",
+      "path": "benchmark/reference/cases/O0G0B0D0S0C1_s901003_020.npz",
+      "sha256": "ffc5ffc972438e8bd1d819c31d71e9143c7b6ae6f26739734633810d40a9a2a6"
+    },
+    {
+      "case_id": "O0G0B0D0S0C1_s901004_021",
+      "path": "benchmark/reference/cases/O0G0B0D0S0C1_s901004_021.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D0S1C0_s902003_036",
+      "path": "benchmark/reference/cases/O0G0B0D0S1C0_s902003_036.npz",
+      "sha256": "d1c72145250232e28bd9289ada8290118ad9281fbc42442d73a215ab5f1ba768"
+    },
+    {
+      "case_id": "O0G0B0D0S1C0_s902004_037",
+      "path": "benchmark/reference/cases/O0G0B0D0S1C0_s902004_037.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D0S1C1_s903003_052",
+      "path": "benchmark/reference/cases/O0G0B0D0S1C1_s903003_052.npz",
+      "sha256": "ffc5ffc972438e8bd1d819c31d71e9143c7b6ae6f26739734633810d40a9a2a6"
+    },
+    {
+      "case_id": "O0G0B0D0S1C1_s903004_053",
+      "path": "benchmark/reference/cases/O0G0B0D0S1C1_s903004_053.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D1S0C0_s904003_068",
+      "path": "benchmark/reference/cases/O0G0B0D1S0C0_s904003_068.npz",
+      "sha256": "d1c72145250232e28bd9289ada8290118ad9281fbc42442d73a215ab5f1ba768"
+    },
+    {
+      "case_id": "O0G0B0D1S0C0_s904004_069",
+      "path": "benchmark/reference/cases/O0G0B0D1S0C0_s904004_069.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D1S0C1_s905003_084",
+      "path": "benchmark/reference/cases/O0G0B0D1S0C1_s905003_084.npz",
+      "sha256": "ffc5ffc972438e8bd1d819c31d71e9143c7b6ae6f26739734633810d40a9a2a6"
+    },
+    {
+      "case_id": "O0G0B0D1S0C1_s905004_085",
+      "path": "benchmark/reference/cases/O0G0B0D1S0C1_s905004_085.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D1S1C0_s906003_100",
+      "path": "benchmark/reference/cases/O0G0B0D1S1C0_s906003_100.npz",
+      "sha256": "d1c72145250232e28bd9289ada8290118ad9281fbc42442d73a215ab5f1ba768"
+    },
+    {
+      "case_id": "O0G0B0D1S1C0_s906004_101",
+      "path": "benchmark/reference/cases/O0G0B0D1S1C0_s906004_101.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B0D1S1C1_s907003_116",
+      "path": "benchmark/reference/cases/O0G0B0D1S1C1_s907003_116.npz",
+      "sha256": "ffc5ffc972438e8bd1d819c31d71e9143c7b6ae6f26739734633810d40a9a2a6"
+    },
+    {
+      "case_id": "O0G0B0D1S1C1_s907004_117",
+      "path": "benchmark/reference/cases/O0G0B0D1S1C1_s907004_117.npz",
+      "sha256": "043f725c3bc3eb9b1b0f59fcf1bc3166ce0f33d48c89f320e466d4dc1652c5fa"
+    },
+    {
+      "case_id": "O0G0B1D0S0C0_s908003_132",
+      "path": "benchmark/reference/cases/O0G0B1D0S0C0_s908003_132.npz",
+      "sha256": "7fe483d0c0afed7cf2de99df6d9ee9a0cf032ff15ae4f8780cac01e8c6a42153"
+    },
+    {
+      "case_id": "O0G0B1D0S0C0_s908004_133",
+      "path": "benchmark/reference/cases/O0G0B1D0S0C0_s908004_133.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D0S0C1_s909003_148",
+      "path": "benchmark/reference/cases/O0G0B1D0S0C1_s909003_148.npz",
+      "sha256": "b103cc59c465b7a0e87abdb2b551a10d528e08b8676ae59732a153a399c68838"
+    },
+    {
+      "case_id": "O0G0B1D0S0C1_s909004_149",
+      "path": "benchmark/reference/cases/O0G0B1D0S0C1_s909004_149.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G0B1D0S1C0_s910003_164",
+      "path": "benchmark/reference/cases/O0G0B1D0S1C0_s910003_164.npz",
+      "sha256": "7fe483d0c0afed7cf2de99df6d9ee9a0cf032ff15ae4f8780cac01e8c6a42153"
+    },
+    {
+      "case_id": "O0G0B1D0S1C0_s910004_165",
+      "path": "benchmark/reference/cases/O0G0B1D0S1C0_s910004_165.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D0S1C1_s911003_180",
+      "path": "benchmark/reference/cases/O0G0B1D0S1C1_s911003_180.npz",
+      "sha256": "b103cc59c465b7a0e87abdb2b551a10d528e08b8676ae59732a153a399c68838"
+    },
+    {
+      "case_id": "O0G0B1D0S1C1_s911004_181",
+      "path": "benchmark/reference/cases/O0G0B1D0S1C1_s911004_181.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G0B1D1S0C0_s912003_196",
+      "path": "benchmark/reference/cases/O0G0B1D1S0C0_s912003_196.npz",
+      "sha256": "7fe483d0c0afed7cf2de99df6d9ee9a0cf032ff15ae4f8780cac01e8c6a42153"
+    },
+    {
+      "case_id": "O0G0B1D1S0C0_s912004_197",
+      "path": "benchmark/reference/cases/O0G0B1D1S0C0_s912004_197.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D1S0C1_s913003_212",
+      "path": "benchmark/reference/cases/O0G0B1D1S0C1_s913003_212.npz",
+      "sha256": "b103cc59c465b7a0e87abdb2b551a10d528e08b8676ae59732a153a399c68838"
+    },
+    {
+      "case_id": "O0G0B1D1S0C1_s913004_213",
+      "path": "benchmark/reference/cases/O0G0B1D1S0C1_s913004_213.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G0B1D1S1C0_s914003_228",
+      "path": "benchmark/reference/cases/O0G0B1D1S1C0_s914003_228.npz",
+      "sha256": "7fe483d0c0afed7cf2de99df6d9ee9a0cf032ff15ae4f8780cac01e8c6a42153"
+    },
+    {
+      "case_id": "O0G0B1D1S1C0_s914004_229",
+      "path": "benchmark/reference/cases/O0G0B1D1S1C0_s914004_229.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D1S1C1_s915003_244",
+      "path": "benchmark/reference/cases/O0G0B1D1S1C1_s915003_244.npz",
+      "sha256": "b103cc59c465b7a0e87abdb2b551a10d528e08b8676ae59732a153a399c68838"
+    },
+    {
+      "case_id": "O0G0B1D1S1C1_s915004_245",
+      "path": "benchmark/reference/cases/O0G0B1D1S1C1_s915004_245.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G1B0D0S0C0_s916003_260",
+      "path": "benchmark/reference/cases/O0G1B0D0S0C0_s916003_260.npz",
+      "sha256": "152f8acdf13cee8582480e0a6af940726b462b45008fbdcba0b6e819e6b09ad4"
+    },
+    {
+      "case_id": "O0G1B0D0S0C0_s916004_261",
+      "path": "benchmark/reference/cases/O0G1B0D0S0C0_s916004_261.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D0S0C1_s917003_276",
+      "path": "benchmark/reference/cases/O0G1B0D0S0C1_s917003_276.npz",
+      "sha256": "588302b55e0e5cac806550f18bc2ac330c7845c0c66248cce4e8ba09a9d9bcba"
+    },
+    {
+      "case_id": "O0G1B0D0S0C1_s917004_277",
+      "path": "benchmark/reference/cases/O0G1B0D0S0C1_s917004_277.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B0D0S1C0_s918003_292",
+      "path": "benchmark/reference/cases/O0G1B0D0S1C0_s918003_292.npz",
+      "sha256": "152f8acdf13cee8582480e0a6af940726b462b45008fbdcba0b6e819e6b09ad4"
+    },
+    {
+      "case_id": "O0G1B0D0S1C0_s918004_293",
+      "path": "benchmark/reference/cases/O0G1B0D0S1C0_s918004_293.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D0S1C1_s919003_308",
+      "path": "benchmark/reference/cases/O0G1B0D0S1C1_s919003_308.npz",
+      "sha256": "588302b55e0e5cac806550f18bc2ac330c7845c0c66248cce4e8ba09a9d9bcba"
+    },
+    {
+      "case_id": "O0G1B0D0S1C1_s919004_309",
+      "path": "benchmark/reference/cases/O0G1B0D0S1C1_s919004_309.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B0D1S0C0_s920003_324",
+      "path": "benchmark/reference/cases/O0G1B0D1S0C0_s920003_324.npz",
+      "sha256": "152f8acdf13cee8582480e0a6af940726b462b45008fbdcba0b6e819e6b09ad4"
+    },
+    {
+      "case_id": "O0G1B0D1S0C0_s920004_325",
+      "path": "benchmark/reference/cases/O0G1B0D1S0C0_s920004_325.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D1S0C1_s921003_340",
+      "path": "benchmark/reference/cases/O0G1B0D1S0C1_s921003_340.npz",
+      "sha256": "588302b55e0e5cac806550f18bc2ac330c7845c0c66248cce4e8ba09a9d9bcba"
+    },
+    {
+      "case_id": "O0G1B0D1S0C1_s921004_341",
+      "path": "benchmark/reference/cases/O0G1B0D1S0C1_s921004_341.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B0D1S1C0_s922003_356",
+      "path": "benchmark/reference/cases/O0G1B0D1S1C0_s922003_356.npz",
+      "sha256": "152f8acdf13cee8582480e0a6af940726b462b45008fbdcba0b6e819e6b09ad4"
+    },
+    {
+      "case_id": "O0G1B0D1S1C0_s922004_357",
+      "path": "benchmark/reference/cases/O0G1B0D1S1C0_s922004_357.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D1S1C1_s923003_372",
+      "path": "benchmark/reference/cases/O0G1B0D1S1C1_s923003_372.npz",
+      "sha256": "588302b55e0e5cac806550f18bc2ac330c7845c0c66248cce4e8ba09a9d9bcba"
+    },
+    {
+      "case_id": "O0G1B0D1S1C1_s923004_373",
+      "path": "benchmark/reference/cases/O0G1B0D1S1C1_s923004_373.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B1D0S0C0_s924003_388",
+      "path": "benchmark/reference/cases/O0G1B1D0S0C0_s924003_388.npz",
+      "sha256": "70b8491722cae2c9e3ab15970dbf97592e0fa261f909da35a8c23ccd99ab5450"
+    },
+    {
+      "case_id": "O0G1B1D0S0C0_s924004_389",
+      "path": "benchmark/reference/cases/O0G1B1D0S0C0_s924004_389.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D0S0C1_s925003_404",
+      "path": "benchmark/reference/cases/O0G1B1D0S0C1_s925003_404.npz",
+      "sha256": "3700f63c228d9e33b25093fdbc0a9ae8ea9a8a679b5e1f60d2c36e1b05cfd837"
+    },
+    {
+      "case_id": "O0G1B1D0S0C1_s925004_405",
+      "path": "benchmark/reference/cases/O0G1B1D0S0C1_s925004_405.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O0G1B1D0S1C0_s926003_420",
+      "path": "benchmark/reference/cases/O0G1B1D0S1C0_s926003_420.npz",
+      "sha256": "70b8491722cae2c9e3ab15970dbf97592e0fa261f909da35a8c23ccd99ab5450"
+    },
+    {
+      "case_id": "O0G1B1D0S1C0_s926004_421",
+      "path": "benchmark/reference/cases/O0G1B1D0S1C0_s926004_421.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D0S1C1_s927003_436",
+      "path": "benchmark/reference/cases/O0G1B1D0S1C1_s927003_436.npz",
+      "sha256": "3700f63c228d9e33b25093fdbc0a9ae8ea9a8a679b5e1f60d2c36e1b05cfd837"
+    },
+    {
+      "case_id": "O0G1B1D0S1C1_s927004_437",
+      "path": "benchmark/reference/cases/O0G1B1D0S1C1_s927004_437.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O0G1B1D1S0C0_s928003_452",
+      "path": "benchmark/reference/cases/O0G1B1D1S0C0_s928003_452.npz",
+      "sha256": "70b8491722cae2c9e3ab15970dbf97592e0fa261f909da35a8c23ccd99ab5450"
+    },
+    {
+      "case_id": "O0G1B1D1S0C0_s928004_453",
+      "path": "benchmark/reference/cases/O0G1B1D1S0C0_s928004_453.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D1S0C1_s929003_468",
+      "path": "benchmark/reference/cases/O0G1B1D1S0C1_s929003_468.npz",
+      "sha256": "3700f63c228d9e33b25093fdbc0a9ae8ea9a8a679b5e1f60d2c36e1b05cfd837"
+    },
+    {
+      "case_id": "O0G1B1D1S0C1_s929004_469",
+      "path": "benchmark/reference/cases/O0G1B1D1S0C1_s929004_469.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O0G1B1D1S1C0_s930003_484",
+      "path": "benchmark/reference/cases/O0G1B1D1S1C0_s930003_484.npz",
+      "sha256": "70b8491722cae2c9e3ab15970dbf97592e0fa261f909da35a8c23ccd99ab5450"
+    },
+    {
+      "case_id": "O0G1B1D1S1C0_s930004_485",
+      "path": "benchmark/reference/cases/O0G1B1D1S1C0_s930004_485.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D1S1C1_s931003_500",
+      "path": "benchmark/reference/cases/O0G1B1D1S1C1_s931003_500.npz",
+      "sha256": "3700f63c228d9e33b25093fdbc0a9ae8ea9a8a679b5e1f60d2c36e1b05cfd837"
+    },
+    {
+      "case_id": "O0G1B1D1S1C1_s931004_501",
+      "path": "benchmark/reference/cases/O0G1B1D1S1C1_s931004_501.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O1G0B0D0S0C0_s932003_516",
+      "path": "benchmark/reference/cases/O1G0B0D0S0C0_s932003_516.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D0S0C0_s932004_517",
+      "path": "benchmark/reference/cases/O1G0B0D0S0C0_s932004_517.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D0S0C1_s933003_532",
+      "path": "benchmark/reference/cases/O1G0B0D0S0C1_s933003_532.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D0S0C1_s933004_533",
+      "path": "benchmark/reference/cases/O1G0B0D0S0C1_s933004_533.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D0S1C0_s934003_548",
+      "path": "benchmark/reference/cases/O1G0B0D0S1C0_s934003_548.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D0S1C0_s934004_549",
+      "path": "benchmark/reference/cases/O1G0B0D0S1C0_s934004_549.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D0S1C1_s935003_564",
+      "path": "benchmark/reference/cases/O1G0B0D0S1C1_s935003_564.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D0S1C1_s935004_565",
+      "path": "benchmark/reference/cases/O1G0B0D0S1C1_s935004_565.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D1S0C0_s936003_580",
+      "path": "benchmark/reference/cases/O1G0B0D1S0C0_s936003_580.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D1S0C0_s936004_581",
+      "path": "benchmark/reference/cases/O1G0B0D1S0C0_s936004_581.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D1S0C1_s937003_596",
+      "path": "benchmark/reference/cases/O1G0B0D1S0C1_s937003_596.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D1S0C1_s937004_597",
+      "path": "benchmark/reference/cases/O1G0B0D1S0C1_s937004_597.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D1S1C0_s938003_612",
+      "path": "benchmark/reference/cases/O1G0B0D1S1C0_s938003_612.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D1S1C0_s938004_613",
+      "path": "benchmark/reference/cases/O1G0B0D1S1C0_s938004_613.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D1S1C1_s939003_628",
+      "path": "benchmark/reference/cases/O1G0B0D1S1C1_s939003_628.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D1S1C1_s939004_629",
+      "path": "benchmark/reference/cases/O1G0B0D1S1C1_s939004_629.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B1D0S0C0_s940003_644",
+      "path": "benchmark/reference/cases/O1G0B1D0S0C0_s940003_644.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D0S0C0_s940004_645",
+      "path": "benchmark/reference/cases/O1G0B1D0S0C0_s940004_645.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D0S0C1_s941003_660",
+      "path": "benchmark/reference/cases/O1G0B1D0S0C1_s941003_660.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D0S0C1_s941004_661",
+      "path": "benchmark/reference/cases/O1G0B1D0S0C1_s941004_661.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D0S1C0_s942003_676",
+      "path": "benchmark/reference/cases/O1G0B1D0S1C0_s942003_676.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D0S1C0_s942004_677",
+      "path": "benchmark/reference/cases/O1G0B1D0S1C0_s942004_677.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D0S1C1_s943003_692",
+      "path": "benchmark/reference/cases/O1G0B1D0S1C1_s943003_692.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D0S1C1_s943004_693",
+      "path": "benchmark/reference/cases/O1G0B1D0S1C1_s943004_693.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D1S0C0_s944003_708",
+      "path": "benchmark/reference/cases/O1G0B1D1S0C0_s944003_708.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D1S0C0_s944004_709",
+      "path": "benchmark/reference/cases/O1G0B1D1S0C0_s944004_709.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D1S0C1_s945003_724",
+      "path": "benchmark/reference/cases/O1G0B1D1S0C1_s945003_724.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D1S0C1_s945004_725",
+      "path": "benchmark/reference/cases/O1G0B1D1S0C1_s945004_725.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D1S1C0_s946003_740",
+      "path": "benchmark/reference/cases/O1G0B1D1S1C0_s946003_740.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D1S1C0_s946004_741",
+      "path": "benchmark/reference/cases/O1G0B1D1S1C0_s946004_741.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D1S1C1_s947003_756",
+      "path": "benchmark/reference/cases/O1G0B1D1S1C1_s947003_756.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D1S1C1_s947004_757",
+      "path": "benchmark/reference/cases/O1G0B1D1S1C1_s947004_757.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G1B0D0S0C0_s948003_772",
+      "path": "benchmark/reference/cases/O1G1B0D0S0C0_s948003_772.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D0S0C0_s948004_773",
+      "path": "benchmark/reference/cases/O1G1B0D0S0C0_s948004_773.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D0S0C1_s949003_788",
+      "path": "benchmark/reference/cases/O1G1B0D0S0C1_s949003_788.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D0S0C1_s949004_789",
+      "path": "benchmark/reference/cases/O1G1B0D0S0C1_s949004_789.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D0S1C0_s950003_804",
+      "path": "benchmark/reference/cases/O1G1B0D0S1C0_s950003_804.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D0S1C0_s950004_805",
+      "path": "benchmark/reference/cases/O1G1B0D0S1C0_s950004_805.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D0S1C1_s951003_820",
+      "path": "benchmark/reference/cases/O1G1B0D0S1C1_s951003_820.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D0S1C1_s951004_821",
+      "path": "benchmark/reference/cases/O1G1B0D0S1C1_s951004_821.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D1S0C0_s952003_836",
+      "path": "benchmark/reference/cases/O1G1B0D1S0C0_s952003_836.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D1S0C0_s952004_837",
+      "path": "benchmark/reference/cases/O1G1B0D1S0C0_s952004_837.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D1S0C1_s953003_852",
+      "path": "benchmark/reference/cases/O1G1B0D1S0C1_s953003_852.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D1S0C1_s953004_853",
+      "path": "benchmark/reference/cases/O1G1B0D1S0C1_s953004_853.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D1S1C0_s954003_868",
+      "path": "benchmark/reference/cases/O1G1B0D1S1C0_s954003_868.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D1S1C0_s954004_869",
+      "path": "benchmark/reference/cases/O1G1B0D1S1C0_s954004_869.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D1S1C1_s955003_884",
+      "path": "benchmark/reference/cases/O1G1B0D1S1C1_s955003_884.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D1S1C1_s955004_885",
+      "path": "benchmark/reference/cases/O1G1B0D1S1C1_s955004_885.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B1D0S0C0_s956003_900",
+      "path": "benchmark/reference/cases/O1G1B1D0S0C0_s956003_900.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D0S0C0_s956004_901",
+      "path": "benchmark/reference/cases/O1G1B1D0S0C0_s956004_901.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D0S0C1_s957003_916",
+      "path": "benchmark/reference/cases/O1G1B1D0S0C1_s957003_916.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D0S0C1_s957004_917",
+      "path": "benchmark/reference/cases/O1G1B1D0S0C1_s957004_917.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D0S1C0_s958003_932",
+      "path": "benchmark/reference/cases/O1G1B1D0S1C0_s958003_932.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D0S1C0_s958004_933",
+      "path": "benchmark/reference/cases/O1G1B1D0S1C0_s958004_933.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D0S1C1_s959003_948",
+      "path": "benchmark/reference/cases/O1G1B1D0S1C1_s959003_948.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D0S1C1_s959004_949",
+      "path": "benchmark/reference/cases/O1G1B1D0S1C1_s959004_949.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D1S0C0_s960003_964",
+      "path": "benchmark/reference/cases/O1G1B1D1S0C0_s960003_964.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D1S0C0_s960004_965",
+      "path": "benchmark/reference/cases/O1G1B1D1S0C0_s960004_965.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D1S0C1_s961003_980",
+      "path": "benchmark/reference/cases/O1G1B1D1S0C1_s961003_980.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D1S0C1_s961004_981",
+      "path": "benchmark/reference/cases/O1G1B1D1S0C1_s961004_981.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D1S1C0_s962003_996",
+      "path": "benchmark/reference/cases/O1G1B1D1S1C0_s962003_996.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D1S1C0_s962004_997",
+      "path": "benchmark/reference/cases/O1G1B1D1S1C0_s962004_997.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D1S1C1_s963003_1012",
+      "path": "benchmark/reference/cases/O1G1B1D1S1C1_s963003_1012.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D1S1C1_s963004_1013",
+      "path": "benchmark/reference/cases/O1G1B1D1S1C1_s963004_1013.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    }
+  ],
+  "schema_version": 1,
+  "selected_case_payload_sha256": "30fcf66670fff808988b8577b49798653e6ade77b7a24724bff7137af2e23bfe",
+  "source_case_ids": [
+    {
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_03.txt",
+      "sha256": "17efacd3f0a6b05eb6fcef90fa12796487540aa1ae167a855a0f81aac0f6a6f4"
+    },
+    {
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_04.txt",
+      "sha256": "a4d2cb3390d07275c382b630cdd8552ca85ff85b1c03e4e0b43a7c66232957cf"
+    }
+  ]
+}

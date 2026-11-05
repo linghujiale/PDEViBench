@@ -1,0 +1,496 @@
+{
+  "arms": {
+    "full_guide": {
+      "experiment_id": "scaffold64_fullguide_codex_gpt55_scipy_n2_20260801",
+      "guide_root": "agents/prompts/library_guides",
+      "guide_sha256": "33679c909d59d2f86b34ccf33d6b2dd8c4e4b3ecdc9f7556d4acbad75b908700",
+      "rendered_prompt_bundle_sha256": "6ffd351e10dc79e2ed0a36b0550d238b06d08b00b3db7d7c1a48bda0556925fe"
+    },
+    "minimal_guide": {
+      "experiment_id": "scaffold64_minimalguide_codex_gpt55_scipy_n2_20260801",
+      "guide_root": "agents/prompts/library_guides_minimal",
+      "guide_sha256": "d65ed9837743f3a06b5e54ab8ebe2fe10b7313dd2368caf269295ded6bb7587c",
+      "rendered_prompt_bundle_sha256": "accd656ab0cd27ca52b956a23da2be21d031b50aec31e50558b067b22badbc9e"
+    }
+  },
+  "assets": {
+    "agents/cc_runner.py": "c8a8ae395ad81eb1f1255b7eea98fdc3fd9725035491dee937e275b5c5965c4f",
+    "agents/codex_runner.py": "909f36826e02d6086ff4e74ebc9155dcd70d85b02c700b29e0ee4cfaed83d375",
+    "agents/prompts/case_template.md": "24e981e8848a6eed1fd6d15d4e48c25e9e0114b024c004b5d255771a2b71298a",
+    "agents/prompts/library_guides/scipy.md": "33679c909d59d2f86b34ccf33d6b2dd8c4e4b3ecdc9f7556d4acbad75b908700",
+    "agents/prompts/library_guides_minimal/scipy.md": "d65ed9837743f3a06b5e54ab8ebe2fe10b7313dd2368caf269295ded6bb7587c",
+    "analysis/axis_models.py": "249b52fae69dbc0c3b60c9b0d1ba16eaffb2075161ff9080b7aa9fc54f1addd6",
+    "evaluator/accuracy.py": "3cbdd8fd343ec624bf2a808c6f30ffae47f87d73c38a527d3e555663706f6441",
+    "evaluator/host_eval.py": "d5a57534808449d868fd6f5903309534946985ca228e5527a293fcc823a0b843",
+    "evaluator/method_appropriateness.py": "c30891ca8b60989bb59e0da26037e14d1b9b31d014374c8577f7859202718bc3",
+    "evaluator/thresholds.py": "67fba6ecf753ed96e2fcbee4ac7bd4f6b106483d1d46111dc4490a759e12c730",
+    "scripts/analyze_scaffold_ablation.py": "cedd8acb8d29fa2599de91ae0841cc3d8eeb34fc12dc589ede51d2db82970f04",
+    "scripts/launch_scaffold_ablation.sh": "9db4c24835dc8ae30449bd17218622abe28c8861d1c2514462e285d393fccc4d",
+    "scripts/prepare_scaffold_ablation.py": "75943b0a251066ba0d4c1f06d62fab6d2c97ef8a0a3de046499dda316dc7e986",
+    "scripts/run_case_batch.py": "0efcbb949d1b09984c406557596d08fa699cfa5d1168418c3ead490f01476add",
+    "scripts/run_phase2_wave1.py": "28dd3fe6d90ac026c625e41214759783616c4c07b49b0bd6bea256c52e7e8b77"
+  },
+  "axis_counts": {
+    "B": {
+      "0": 32,
+      "1": 32
+    },
+    "C": {
+      "0": 32,
+      "1": 32
+    },
+    "D": {
+      "0": 32,
+      "1": 32
+    },
+    "G": {
+      "0": 32,
+      "1": 32
+    },
+    "O": {
+      "0": 32,
+      "1": 32
+    },
+    "S": {
+      "0": 32,
+      "1": 32
+    }
+  },
+  "case_bank": {
+    "path": "benchmark/cases/axis_balanced_1024.jsonl",
+    "sha256": "cd2b9c6a82f3187691c6d8d8a2ff449a68201e542c733e75854a220cced2018d"
+  },
+  "case_ids": [
+    "O0G0B0D0S0C0_s900000_001",
+    "O0G0B0D0S0C1_s901000_017",
+    "O0G0B0D0S1C0_s902000_033",
+    "O0G0B0D0S1C1_s903000_049",
+    "O0G0B0D1S0C0_s904000_065",
+    "O0G0B0D1S0C1_s905000_081",
+    "O0G0B0D1S1C0_s906000_097",
+    "O0G0B0D1S1C1_s907000_113",
+    "O0G0B1D0S0C0_s908000_129",
+    "O0G0B1D0S0C1_s909000_145",
+    "O0G0B1D0S1C0_s910000_161",
+    "O0G0B1D0S1C1_s911000_177",
+    "O0G0B1D1S0C0_s912000_193",
+    "O0G0B1D1S0C1_s913000_209",
+    "O0G0B1D1S1C0_s914000_225",
+    "O0G0B1D1S1C1_s915000_241",
+    "O0G1B0D0S0C0_s916000_257",
+    "O0G1B0D0S0C1_s917000_273",
+    "O0G1B0D0S1C0_s918000_289",
+    "O0G1B0D0S1C1_s919000_305",
+    "O0G1B0D1S0C0_s920000_321",
+    "O0G1B0D1S0C1_s921000_337",
+    "O0G1B0D1S1C0_s922000_353",
+    "O0G1B0D1S1C1_s923000_369",
+    "O0G1B1D0S0C0_s924000_385",
+    "O0G1B1D0S0C1_s925000_401",
+    "O0G1B1D0S1C0_s926000_417",
+    "O0G1B1D0S1C1_s927000_433",
+    "O0G1B1D1S0C0_s928000_449",
+    "O0G1B1D1S0C1_s929000_465",
+    "O0G1B1D1S1C0_s930000_481",
+    "O0G1B1D1S1C1_s931000_497",
+    "O1G0B0D0S0C0_s932000_513",
+    "O1G0B0D0S0C1_s933000_529",
+    "O1G0B0D0S1C0_s934000_545",
+    "O1G0B0D0S1C1_s935000_561",
+    "O1G0B0D1S0C0_s936000_577",
+    "O1G0B0D1S0C1_s937000_593",
+    "O1G0B0D1S1C0_s938000_609",
+    "O1G0B0D1S1C1_s939000_625",
+    "O1G0B1D0S0C0_s940000_641",
+    "O1G0B1D0S0C1_s941000_657",
+    "O1G0B1D0S1C0_s942000_673",
+    "O1G0B1D0S1C1_s943000_689",
+    "O1G0B1D1S0C0_s944000_705",
+    "O1G0B1D1S0C1_s945000_721",
+    "O1G0B1D1S1C0_s946000_737",
+    "O1G0B1D1S1C1_s947000_753",
+    "O1G1B0D0S0C0_s948000_769",
+    "O1G1B0D0S0C1_s949000_785",
+    "O1G1B0D0S1C0_s950000_801",
+    "O1G1B0D0S1C1_s951000_817",
+    "O1G1B0D1S0C0_s952000_833",
+    "O1G1B0D1S0C1_s953000_849",
+    "O1G1B0D1S1C0_s954000_865",
+    "O1G1B0D1S1C1_s955000_881",
+    "O1G1B1D0S0C0_s956000_897",
+    "O1G1B1D0S0C1_s957000_913",
+    "O1G1B1D0S1C0_s958000_929",
+    "O1G1B1D0S1C1_s959000_945",
+    "O1G1B1D1S0C0_s960000_961",
+    "O1G1B1D1S0C1_s961000_977",
+    "O1G1B1D1S1C0_s962000_993",
+    "O1G1B1D1S1C1_s963000_1009"
+  ],
+  "codex_cli_version": "codex-cli 0.133.0",
+  "created_at": "2026-08-01T05:36:03.246392+00:00",
+  "execution": {
+    "eval_mode": "host",
+    "expected_calls_per_arm": 128,
+    "expected_calls_total": 256,
+    "first_pair_is_in_design_health_check": true,
+    "library_label": "scipy",
+    "max_turns_recorded": 30,
+    "n_arms": 2,
+    "n_binary_cells": 64,
+    "n_cases": 64,
+    "n_runs_per_case_per_arm": 2,
+    "paired_launch": true,
+    "parallel_workers_per_arm": 1,
+    "run_indices": [
+      0,
+      1
+    ],
+    "wall_timeout_seconds": 600
+  },
+  "freeze_status": "prospective_before_arm_outcomes",
+  "geometry_counts": {
+    "annulus": 32,
+    "unit_square": 32
+  },
+  "git_head_at_freeze": "0f591c28aef67bc1dd9066061a07b334c9ad0c9d",
+  "model": {
+    "model_id": "gpt-5.5",
+    "provider": "openai"
+  },
+  "name": "pdevi_prompt_scaffold_ablation_64x2x2",
+  "non_guide_prompt_bundle_sha256": "0daccf39755ea1d2d3c16b9985423a25296615d21c29bdb13c1aa87b8033230c",
+  "operator_counts": {
+    "Burgers": 32,
+    "Poisson": 32
+  },
+  "question": "Does the observed PDE axis frontier persist when concrete numerical recipes are removed while the task, library label, model, tools, and evaluator remain fixed?",
+  "reference_bundle_sha256": "a803f58f7f4b19ca0ac7407a4b629db721cff843b1514e67cb309c20020869c7",
+  "references": [
+    {
+      "case_id": "O0G0B0D0S0C0_s900000_001",
+      "path": "benchmark/reference/cases/O0G0B0D0S0C0_s900000_001.npz",
+      "sha256": "164067666a6d91d23957360e2a7bf6d461db4a74d2900bd1e4a6ccd06e99dc19"
+    },
+    {
+      "case_id": "O0G0B0D0S0C1_s901000_017",
+      "path": "benchmark/reference/cases/O0G0B0D0S0C1_s901000_017.npz",
+      "sha256": "2571974c1f722f27f0bbf7ac6a67a1187c54596f1d24e9d3985e082d12200c4c"
+    },
+    {
+      "case_id": "O0G0B0D0S1C0_s902000_033",
+      "path": "benchmark/reference/cases/O0G0B0D0S1C0_s902000_033.npz",
+      "sha256": "164067666a6d91d23957360e2a7bf6d461db4a74d2900bd1e4a6ccd06e99dc19"
+    },
+    {
+      "case_id": "O0G0B0D0S1C1_s903000_049",
+      "path": "benchmark/reference/cases/O0G0B0D0S1C1_s903000_049.npz",
+      "sha256": "2571974c1f722f27f0bbf7ac6a67a1187c54596f1d24e9d3985e082d12200c4c"
+    },
+    {
+      "case_id": "O0G0B0D1S0C0_s904000_065",
+      "path": "benchmark/reference/cases/O0G0B0D1S0C0_s904000_065.npz",
+      "sha256": "164067666a6d91d23957360e2a7bf6d461db4a74d2900bd1e4a6ccd06e99dc19"
+    },
+    {
+      "case_id": "O0G0B0D1S0C1_s905000_081",
+      "path": "benchmark/reference/cases/O0G0B0D1S0C1_s905000_081.npz",
+      "sha256": "2571974c1f722f27f0bbf7ac6a67a1187c54596f1d24e9d3985e082d12200c4c"
+    },
+    {
+      "case_id": "O0G0B0D1S1C0_s906000_097",
+      "path": "benchmark/reference/cases/O0G0B0D1S1C0_s906000_097.npz",
+      "sha256": "164067666a6d91d23957360e2a7bf6d461db4a74d2900bd1e4a6ccd06e99dc19"
+    },
+    {
+      "case_id": "O0G0B0D1S1C1_s907000_113",
+      "path": "benchmark/reference/cases/O0G0B0D1S1C1_s907000_113.npz",
+      "sha256": "2571974c1f722f27f0bbf7ac6a67a1187c54596f1d24e9d3985e082d12200c4c"
+    },
+    {
+      "case_id": "O0G0B1D0S0C0_s908000_129",
+      "path": "benchmark/reference/cases/O0G0B1D0S0C0_s908000_129.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D0S0C1_s909000_145",
+      "path": "benchmark/reference/cases/O0G0B1D0S0C1_s909000_145.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G0B1D0S1C0_s910000_161",
+      "path": "benchmark/reference/cases/O0G0B1D0S1C0_s910000_161.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D0S1C1_s911000_177",
+      "path": "benchmark/reference/cases/O0G0B1D0S1C1_s911000_177.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G0B1D1S0C0_s912000_193",
+      "path": "benchmark/reference/cases/O0G0B1D1S0C0_s912000_193.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D1S0C1_s913000_209",
+      "path": "benchmark/reference/cases/O0G0B1D1S0C1_s913000_209.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G0B1D1S1C0_s914000_225",
+      "path": "benchmark/reference/cases/O0G0B1D1S1C0_s914000_225.npz",
+      "sha256": "d5014e842a69efe208b4d8e25ee781379dd08783bacd892e145431655c45c99b"
+    },
+    {
+      "case_id": "O0G0B1D1S1C1_s915000_241",
+      "path": "benchmark/reference/cases/O0G0B1D1S1C1_s915000_241.npz",
+      "sha256": "523ce0c752f82c0e9a79d5561430fc40a2d94153303737f6bee5b42734abc744"
+    },
+    {
+      "case_id": "O0G1B0D0S0C0_s916000_257",
+      "path": "benchmark/reference/cases/O0G1B0D0S0C0_s916000_257.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D0S0C1_s917000_273",
+      "path": "benchmark/reference/cases/O0G1B0D0S0C1_s917000_273.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B0D0S1C0_s918000_289",
+      "path": "benchmark/reference/cases/O0G1B0D0S1C0_s918000_289.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D0S1C1_s919000_305",
+      "path": "benchmark/reference/cases/O0G1B0D0S1C1_s919000_305.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B0D1S0C0_s920000_321",
+      "path": "benchmark/reference/cases/O0G1B0D1S0C0_s920000_321.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D1S0C1_s921000_337",
+      "path": "benchmark/reference/cases/O0G1B0D1S0C1_s921000_337.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B0D1S1C0_s922000_353",
+      "path": "benchmark/reference/cases/O0G1B0D1S1C0_s922000_353.npz",
+      "sha256": "9db5d29d48dabc4d7a723a9d36b4c22b18b9117e85ffab7817cce5a97453dea7"
+    },
+    {
+      "case_id": "O0G1B0D1S1C1_s923000_369",
+      "path": "benchmark/reference/cases/O0G1B0D1S1C1_s923000_369.npz",
+      "sha256": "4266642cb6f301d82f1c48c25a0095e6f0d9679c829d348fb666316b87d709b4"
+    },
+    {
+      "case_id": "O0G1B1D0S0C0_s924000_385",
+      "path": "benchmark/reference/cases/O0G1B1D0S0C0_s924000_385.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D0S0C1_s925000_401",
+      "path": "benchmark/reference/cases/O0G1B1D0S0C1_s925000_401.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O0G1B1D0S1C0_s926000_417",
+      "path": "benchmark/reference/cases/O0G1B1D0S1C0_s926000_417.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D0S1C1_s927000_433",
+      "path": "benchmark/reference/cases/O0G1B1D0S1C1_s927000_433.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O0G1B1D1S0C0_s928000_449",
+      "path": "benchmark/reference/cases/O0G1B1D1S0C0_s928000_449.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D1S0C1_s929000_465",
+      "path": "benchmark/reference/cases/O0G1B1D1S0C1_s929000_465.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O0G1B1D1S1C0_s930000_481",
+      "path": "benchmark/reference/cases/O0G1B1D1S1C0_s930000_481.npz",
+      "sha256": "ea7dbe7c9245bbdd8eb2b2d705bac074266d6ed51f2c7e9af3964aa778496066"
+    },
+    {
+      "case_id": "O0G1B1D1S1C1_s931000_497",
+      "path": "benchmark/reference/cases/O0G1B1D1S1C1_s931000_497.npz",
+      "sha256": "505a66952f2db02867e04a79e7b80fc77e69daff71bcda9af99199c28a3b6780"
+    },
+    {
+      "case_id": "O1G0B0D0S0C0_s932000_513",
+      "path": "benchmark/reference/cases/O1G0B0D0S0C0_s932000_513.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D0S0C1_s933000_529",
+      "path": "benchmark/reference/cases/O1G0B0D0S0C1_s933000_529.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D0S1C0_s934000_545",
+      "path": "benchmark/reference/cases/O1G0B0D0S1C0_s934000_545.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D0S1C1_s935000_561",
+      "path": "benchmark/reference/cases/O1G0B0D0S1C1_s935000_561.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D1S0C0_s936000_577",
+      "path": "benchmark/reference/cases/O1G0B0D1S0C0_s936000_577.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D1S0C1_s937000_593",
+      "path": "benchmark/reference/cases/O1G0B0D1S0C1_s937000_593.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B0D1S1C0_s938000_609",
+      "path": "benchmark/reference/cases/O1G0B0D1S1C0_s938000_609.npz",
+      "sha256": "c6345419d9def25c7cab2033ce0f4f8201e4588a52a4cee0da291d0ce5a1701c"
+    },
+    {
+      "case_id": "O1G0B0D1S1C1_s939000_625",
+      "path": "benchmark/reference/cases/O1G0B0D1S1C1_s939000_625.npz",
+      "sha256": "8d9d387fb5c5e8d18216c3844f243fa855e9e709d5bf5fb2782b4c02b1082d54"
+    },
+    {
+      "case_id": "O1G0B1D0S0C0_s940000_641",
+      "path": "benchmark/reference/cases/O1G0B1D0S0C0_s940000_641.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D0S0C1_s941000_657",
+      "path": "benchmark/reference/cases/O1G0B1D0S0C1_s941000_657.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D0S1C0_s942000_673",
+      "path": "benchmark/reference/cases/O1G0B1D0S1C0_s942000_673.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D0S1C1_s943000_689",
+      "path": "benchmark/reference/cases/O1G0B1D0S1C1_s943000_689.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D1S0C0_s944000_705",
+      "path": "benchmark/reference/cases/O1G0B1D1S0C0_s944000_705.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D1S0C1_s945000_721",
+      "path": "benchmark/reference/cases/O1G0B1D1S0C1_s945000_721.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G0B1D1S1C0_s946000_737",
+      "path": "benchmark/reference/cases/O1G0B1D1S1C0_s946000_737.npz",
+      "sha256": "ec1915c881f8cf73cc858c4c087ffa102f2c29dc24f76239ac7b24a46cca5bb0"
+    },
+    {
+      "case_id": "O1G0B1D1S1C1_s947000_753",
+      "path": "benchmark/reference/cases/O1G0B1D1S1C1_s947000_753.npz",
+      "sha256": "b9661e58f9d738002613c7e42e80e84308b57d96bff096baf16bc413d7486e32"
+    },
+    {
+      "case_id": "O1G1B0D0S0C0_s948000_769",
+      "path": "benchmark/reference/cases/O1G1B0D0S0C0_s948000_769.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D0S0C1_s949000_785",
+      "path": "benchmark/reference/cases/O1G1B0D0S0C1_s949000_785.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D0S1C0_s950000_801",
+      "path": "benchmark/reference/cases/O1G1B0D0S1C0_s950000_801.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D0S1C1_s951000_817",
+      "path": "benchmark/reference/cases/O1G1B0D0S1C1_s951000_817.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D1S0C0_s952000_833",
+      "path": "benchmark/reference/cases/O1G1B0D1S0C0_s952000_833.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D1S0C1_s953000_849",
+      "path": "benchmark/reference/cases/O1G1B0D1S0C1_s953000_849.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B0D1S1C0_s954000_865",
+      "path": "benchmark/reference/cases/O1G1B0D1S1C0_s954000_865.npz",
+      "sha256": "b9b31d79d398767f7f608a229a9aed07742af50e6f5f7db93fffed02d19c11ab"
+    },
+    {
+      "case_id": "O1G1B0D1S1C1_s955000_881",
+      "path": "benchmark/reference/cases/O1G1B0D1S1C1_s955000_881.npz",
+      "sha256": "ba3cfb1b4c90cd1dfd50b8f3ec0350c90499cacd119733a3abbbd6d70f9cc4c2"
+    },
+    {
+      "case_id": "O1G1B1D0S0C0_s956000_897",
+      "path": "benchmark/reference/cases/O1G1B1D0S0C0_s956000_897.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D0S0C1_s957000_913",
+      "path": "benchmark/reference/cases/O1G1B1D0S0C1_s957000_913.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D0S1C0_s958000_929",
+      "path": "benchmark/reference/cases/O1G1B1D0S1C0_s958000_929.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D0S1C1_s959000_945",
+      "path": "benchmark/reference/cases/O1G1B1D0S1C1_s959000_945.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D1S0C0_s960000_961",
+      "path": "benchmark/reference/cases/O1G1B1D1S0C0_s960000_961.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D1S0C1_s961000_977",
+      "path": "benchmark/reference/cases/O1G1B1D1S0C1_s961000_977.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    },
+    {
+      "case_id": "O1G1B1D1S1C0_s962000_993",
+      "path": "benchmark/reference/cases/O1G1B1D1S1C0_s962000_993.npz",
+      "sha256": "6805615e9e90b21ab00207d449fe64fde8911be21c656eda0599ce1556bd83de"
+    },
+    {
+      "case_id": "O1G1B1D1S1C1_s963000_1009",
+      "path": "benchmark/reference/cases/O1G1B1D1S1C1_s963000_1009.npz",
+      "sha256": "d33f684f29c1d9cdf888b4f5f819f6891a668491821afa3e27af2da2ad20cd11"
+    }
+  ],
+  "schema_version": 1,
+  "selected_case_payload_sha256": "cc441bc301a4de601b7bed39c90cd7d9326858f5d8679059a10aca00d4497032",
+  "source_case_ids": {
+    "path": "benchmark/cases/axis_balanced_1024_shards/shard_00.txt",
+    "sha256": "7072f9170fb287a77b78f14be05f9fd7163c7a1d52d9a0801e353cc0723191dc"
+  }
+}

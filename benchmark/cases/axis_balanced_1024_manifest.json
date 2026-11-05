@@ -1,0 +1,238 @@
+{
+  "axis_order": "OGBDSC",
+  "case_file": "benchmark/cases/axis_balanced_1024.jsonl",
+  "case_id_file": "benchmark/cases/axis_balanced_1024_case_ids.txt",
+  "case_id_file_sha256": "4fbebbb4988184cc2fbce68601f7de6c7e76f097dd7f415e47bf7518a7d556c1",
+  "description": "Binary axis-balanced 1024-case bank: 64 O/G/B/D/S/C cells x 16 seeds.",
+  "n_binary_cells": 64,
+  "n_cases": 1024,
+  "n_shards": 16,
+  "name": "axis_balanced_1024",
+  "operator_geometry_bc_counts": {
+    "Burgers | annulus | dirichlet_homogeneous": 128,
+    "Burgers | annulus | dirichlet_neumann_mixed": 128,
+    "Burgers | unit_square | dirichlet_homogeneous": 128,
+    "Burgers | unit_square | dirichlet_neumann_mixed": 128,
+    "Helmholtz_low_k | annulus | dirichlet_homogeneous": 16,
+    "Helmholtz_low_k | annulus | dirichlet_neumann_mixed": 32,
+    "Helmholtz_low_k | sector | dirichlet_homogeneous": 16,
+    "Helmholtz_low_k | unit_square | dirichlet_homogeneous": 24,
+    "Helmholtz_low_k | unit_square | dirichlet_neumann_mixed": 32,
+    "Poisson | L_shape_2d | dirichlet_homogeneous": 16,
+    "Poisson | annulus | dirichlet_homogeneous": 16,
+    "Poisson | annulus | dirichlet_neumann_mixed": 32,
+    "Poisson | sector | dirichlet_homogeneous": 16,
+    "Poisson | square_with_hole | dirichlet_homogeneous": 16,
+    "Poisson | unit_square | dirichlet_homogeneous": 32,
+    "Poisson | unit_square | dirichlet_neumann_mixed": 32,
+    "heat | annulus | dirichlet_homogeneous": 8,
+    "heat | annulus | dirichlet_neumann_mixed": 32,
+    "heat | sector | dirichlet_homogeneous": 8,
+    "heat | unit_square | dirichlet_homogeneous": 24,
+    "heat | unit_square | dirichlet_neumann_mixed": 32,
+    "linear_elasticity | unit_square | dirichlet_homogeneous": 24,
+    "wave | annulus | dirichlet_homogeneous": 8,
+    "wave | annulus | dirichlet_neumann_mixed": 32,
+    "wave | sector | dirichlet_homogeneous": 8,
+    "wave | unit_square | dirichlet_homogeneous": 24,
+    "wave | unit_square | dirichlet_neumann_mixed": 32
+  },
+  "per_axis_counts": {
+    "B": {
+      "0": 512,
+      "1": 512
+    },
+    "C": {
+      "0": 512,
+      "1": 512
+    },
+    "D": {
+      "0": 512,
+      "1": 512
+    },
+    "G": {
+      "0": 512,
+      "1": 512
+    },
+    "O": {
+      "0": 512,
+      "1": 512
+    },
+    "S": {
+      "0": 512,
+      "1": 512
+    }
+  },
+  "per_binary_cell_counts": {
+    "O0G0B0D0S0C0": 16,
+    "O0G0B0D0S0C1": 16,
+    "O0G0B0D0S1C0": 16,
+    "O0G0B0D0S1C1": 16,
+    "O0G0B0D1S0C0": 16,
+    "O0G0B0D1S0C1": 16,
+    "O0G0B0D1S1C0": 16,
+    "O0G0B0D1S1C1": 16,
+    "O0G0B1D0S0C0": 16,
+    "O0G0B1D0S0C1": 16,
+    "O0G0B1D0S1C0": 16,
+    "O0G0B1D0S1C1": 16,
+    "O0G0B1D1S0C0": 16,
+    "O0G0B1D1S0C1": 16,
+    "O0G0B1D1S1C0": 16,
+    "O0G0B1D1S1C1": 16,
+    "O0G1B0D0S0C0": 16,
+    "O0G1B0D0S0C1": 16,
+    "O0G1B0D0S1C0": 16,
+    "O0G1B0D0S1C1": 16,
+    "O0G1B0D1S0C0": 16,
+    "O0G1B0D1S0C1": 16,
+    "O0G1B0D1S1C0": 16,
+    "O0G1B0D1S1C1": 16,
+    "O0G1B1D0S0C0": 16,
+    "O0G1B1D0S0C1": 16,
+    "O0G1B1D0S1C0": 16,
+    "O0G1B1D0S1C1": 16,
+    "O0G1B1D1S0C0": 16,
+    "O0G1B1D1S0C1": 16,
+    "O0G1B1D1S1C0": 16,
+    "O0G1B1D1S1C1": 16,
+    "O1G0B0D0S0C0": 16,
+    "O1G0B0D0S0C1": 16,
+    "O1G0B0D0S1C0": 16,
+    "O1G0B0D0S1C1": 16,
+    "O1G0B0D1S0C0": 16,
+    "O1G0B0D1S0C1": 16,
+    "O1G0B0D1S1C0": 16,
+    "O1G0B0D1S1C1": 16,
+    "O1G0B1D0S0C0": 16,
+    "O1G0B1D0S0C1": 16,
+    "O1G0B1D0S1C0": 16,
+    "O1G0B1D0S1C1": 16,
+    "O1G0B1D1S0C0": 16,
+    "O1G0B1D1S0C1": 16,
+    "O1G0B1D1S1C0": 16,
+    "O1G0B1D1S1C1": 16,
+    "O1G1B0D0S0C0": 16,
+    "O1G1B0D0S0C1": 16,
+    "O1G1B0D0S1C0": 16,
+    "O1G1B0D0S1C1": 16,
+    "O1G1B0D1S0C0": 16,
+    "O1G1B0D1S0C1": 16,
+    "O1G1B0D1S1C0": 16,
+    "O1G1B0D1S1C1": 16,
+    "O1G1B1D0S0C0": 16,
+    "O1G1B1D0S0C1": 16,
+    "O1G1B1D0S1C0": 16,
+    "O1G1B1D0S1C1": 16,
+    "O1G1B1D1S0C0": 16,
+    "O1G1B1D1S0C1": 16,
+    "O1G1B1D1S1C0": 16,
+    "O1G1B1D1S1C1": 16
+  },
+  "reference_type_counts": {
+    "high_fidelity": 32,
+    "manufactured": 992
+  },
+  "scalar_output_cases": 500,
+  "seeds_per_binary_cell": 16,
+  "shard_dir": "benchmark/cases/axis_balanced_1024_shards",
+  "shards": [
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_00.txt",
+      "sha256": "7072f9170fb287a77b78f14be05f9fd7163c7a1d52d9a0801e353cc0723191dc",
+      "shard": 0
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_01.txt",
+      "sha256": "c718359ec9cadac9b1ba10b327f49b58825251c38a2f96cc7cd879da93405b5c",
+      "shard": 1
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_02.txt",
+      "sha256": "ca4eae012620a381616e3412ad7ec022fd20c4eeaeeed14ce7efceefa26ca7bd",
+      "shard": 2
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_03.txt",
+      "sha256": "17efacd3f0a6b05eb6fcef90fa12796487540aa1ae167a855a0f81aac0f6a6f4",
+      "shard": 3
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_04.txt",
+      "sha256": "a4d2cb3390d07275c382b630cdd8552ca85ff85b1c03e4e0b43a7c66232957cf",
+      "shard": 4
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_05.txt",
+      "sha256": "da955aaf0102d3a4792e63c9c397f1c8031cf15fc96158c3c6bc7bae07ed781f",
+      "shard": 5
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_06.txt",
+      "sha256": "480e9d9e1327eb4136564207279177dbc3417b86ce4ce1df2961ea5f0b702686",
+      "shard": 6
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_07.txt",
+      "sha256": "73bd981bb0d39cddceba536f39843bf28b1284c5945769fe8ad6bfd0468f33f6",
+      "shard": 7
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_08.txt",
+      "sha256": "a5d6259b329b2e53963b35dd2dfd76ac986ff01ddeba27198c81632c23565119",
+      "shard": 8
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_09.txt",
+      "sha256": "a7faf781f89bae8bd5414e50a9390195b4d00ed4c7ecd5be27a785701ae17299",
+      "shard": 9
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_10.txt",
+      "sha256": "f134aac3ebf9b61f933177aff1199547a309d6a20d177c826cc0a9821c7e9561",
+      "shard": 10
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_11.txt",
+      "sha256": "ea432e965a9ccf4c71dcce66a30e492b98360c83478dbfa1f871ca516ac40e30",
+      "shard": 11
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_12.txt",
+      "sha256": "e9a4a1beced13e563c61612111fea8375e51e720e7031c60f50e36b3541e27a6",
+      "shard": 12
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_13.txt",
+      "sha256": "c40bf80c4af0cacef6a45e8978196ab2473804c64a13c91a9dcfbe19a802fbad",
+      "shard": 13
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_14.txt",
+      "sha256": "b86895855b39aa9b1cd9a3daaaf2e843d55041abede93d778a517131d1b76c27",
+      "shard": 14
+    },
+    {
+      "n_cases": 64,
+      "path": "benchmark/cases/axis_balanced_1024_shards/shard_15.txt",
+      "sha256": "667e8ae7e3fef41d84ab0458892742e90215f657ed6a3692ab94e47ac728ccbd",
+      "shard": 15
+    }
+  ],
+  "vector_output_cases": 524
+}
