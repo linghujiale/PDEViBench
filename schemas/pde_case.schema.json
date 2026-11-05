@@ -1,0 +1,440 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pdevibench.org/schemas/pde_case.schema.json",
+  "title": "PDECase",
+  "description": "A single PDEViBench task.",
+  "type": "object",
+  "required": [
+    "id",
+    "axes",
+    "case_spec",
+    "reference",
+    "thresholds",
+    "library_support",
+    "provenance",
+    "schema_version"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version. Bumped on any breaking change to required fields or types."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+_s[0-9]+_[0-9]+$",
+      "description": "Stable case identifier. Form: <axis_signature>_<seed>_<seq>, e.g. O0G2B3D0S0C0_s17_004. The axis_signature is the concatenation of axis-level encodings; the seed reproduces the case under generators/compose.py."
+    },
+    "axes": {
+      "type": "object",
+      "required": [
+        "O",
+        "G",
+        "B",
+        "D",
+        "S",
+        "C"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "O": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Operator standardness"
+        },
+        "G": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "description": "Geometric complexity"
+        },
+        "B": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "description": "Boundary-condition complexity"
+        },
+        "D": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Discretization specificity"
+        },
+        "S": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Structure-preservation requirement"
+        },
+        "C": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Coupling / multi-physics"
+        }
+      }
+    },
+    "case_spec": {
+      "type": "object",
+      "required": [
+        "pde",
+        "domain",
+        "bc",
+        "eval_grid",
+        "output"
+      ],
+      "additionalProperties": false,
+      "description": "The natural-language and structured specification of the PDE case, exactly as it will be presented to the agent.",
+      "properties": {
+        "hints": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Informational hints derived from the D/S/C axis levels. Not authoritative; ignored by the evaluator. Heuristic rules in evaluator/method_appropriateness.py read these only as a tie-breaker."
+        },
+        "pde": {
+          "type": "object",
+          "required": [
+            "statement",
+            "operator_family"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "statement": {
+              "type": "string",
+              "description": "Plain-English statement of the PDE."
+            },
+            "operator_family": {
+              "type": "string",
+              "description": "Canonical family label, e.g. 'Poisson', 'Stokes', 'fractional_Laplacian'."
+            },
+            "parameters": {
+              "type": "object",
+              "description": "Numerical parameters (viscosity, diffusivity, source coefficients, etc.)."
+            }
+          }
+        },
+        "domain": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "enum": [
+                "primitive",
+                "csg",
+                "imported_step",
+                "imported_stl",
+                "parameterized"
+              ]
+            },
+            "spec": {
+              "description": "Type-dependent geometric specification. For primitive: shape + dimensions. For csg: list of operations. For imported_*: path + checksum."
+            }
+          }
+        },
+        "bc": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Boundary-condition assignment, tagged by domain boundary subset."
+        },
+        "ic": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Initial condition for time-dependent problems. Omit for steady cases."
+        },
+        "eval_grid": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "enum": [
+                "uniform",
+                "uniform_masked",
+                "structured",
+                "structured_polar",
+                "structured_polar_sector",
+                "imported_mesh",
+                "scattered_points"
+              ]
+            },
+            "spec": {
+              "description": "Points (or mesh) on which the reference and submitted solutions are evaluated."
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "required": [
+            "dtype",
+            "shape"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "dtype": {
+              "type": "string",
+              "enum": [
+                "float64",
+                "complex128",
+                "float32"
+              ]
+            },
+            "shape": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "required": [
+        "type",
+        "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "manufactured",
+            "high_fidelity",
+            "literature"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "description": "Path (relative to repo root) to the reference .npz, .h5, or .py module."
+        },
+        "construction_log": {
+          "type": "string",
+          "description": "One-paragraph human-readable description of how the reference was constructed."
+        },
+        "convergence_check": {
+          "type": "object",
+          "description": "Required for type='high_fidelity'. Records the multi-level refinement and the coarse-to-fine gap.",
+          "required": [
+            "levels",
+            "gap_relative_l2"
+          ],
+          "properties": {
+            "levels": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "minItems": 3
+            },
+            "gap_relative_l2": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.05
+            },
+            "polynomial_order": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "literature_ref": {
+          "type": "string",
+          "description": "Required for type='literature'. BibTeX key or DOI."
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "required": [
+        "tau_acc",
+        "tau_time",
+        "e_base",
+        "t_base",
+        "alpha_acc",
+        "alpha_time",
+        "tau_min"
+      ],
+      "additionalProperties": false,
+      "description": "Fixed before any agent run.",
+      "properties": {
+        "alpha_acc": {
+          "type": "number",
+          "const": 10,
+          "description": "Accuracy multiplier."
+        },
+        "alpha_time": {
+          "type": "number",
+          "const": 3,
+          "description": "Runtime multiplier."
+        },
+        "tau_min": {
+          "type": "number",
+          "const": 1e-06,
+          "description": "Floor on the accuracy threshold."
+        },
+        "tau_acc": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Computed: max(alpha_acc * e_base, tau_min)."
+        },
+        "tau_time": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Computed: alpha_time * t_base."
+        },
+        "e_base": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Baseline expected accuracy of a 'reasonable' solver on this case."
+        },
+        "t_base": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Baseline expected wall-clock of a 'reasonable' solver on this case."
+        }
+      }
+    },
+    "library_support": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "DOLFINx",
+          "Firedrake",
+          "deal.II"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Which library tracks this case may be evaluated on. Most cases are DOLFINx-primary; some are deal.II-only or Firedrake-only."
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "generated",
+            "literature",
+            "reused_pilot"
+          ]
+        },
+        "literature_ref": {
+          "type": "string",
+          "description": "BibTeX key or DOI; required when source='literature'."
+        },
+        "generator_seed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Required when source='generated' or 'reused_pilot'."
+        },
+        "generator_version": {
+          "type": "string",
+          "description": "Commit hash of benchmark/generators/ at generation time."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "phase": {
+          "enum": [
+            "pilot",
+            "main",
+            "mechanism_h1",
+            "mechanism_h2",
+            "mechanism_h3",
+            "mechanism_h5",
+            "literature",
+            "transfer",
+            "drift",
+            "smoke",
+            "phase1_demo"
+          ]
+        }
+      }
+    },
+    "deprecated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Deprecated cases are kept and marked. Analyses filter on this field."
+    },
+    "deprecated_reason": {
+      "type": "string",
+      "description": "Required when deprecated=true."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "deprecated": {
+            "const": true
+          }
+        },
+        "required": [
+          "deprecated"
+        ]
+      },
+      "then": {
+        "required": [
+          "deprecated_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference": {
+            "properties": {
+              "type": {
+                "const": "high_fidelity"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reference": {
+            "required": [
+              "convergence_check"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference": {
+            "properties": {
+              "type": {
+                "const": "literature"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reference": {
+            "required": [
+              "literature_ref"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pdevibench.org/schemas/result.schema.json",
+  "title": "EvaluationResult",
+  "description": "Verdict from the four-stage evaluation gate for one (case, agent, backbone, run) tuple.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "case_id",
+    "agent",
+    "backbone",
+    "run_idx",
+    "experiment_id",
+    "started_at",
+    "completed_at",
+    "case_pass",
+    "failure_code",
+    "stages"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+_s[0-9]+_[0-9]+$"
+    },
+    "agent": {
+      "enum": [
+        "codex",
+        "claude_code",
+        "openhands",
+        "aider"
+      ]
+    },
+    "backbone": {
+      "type": "object",
+      "required": [
+        "provider",
+        "model_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "enum": [
+            "openai",
+            "anthropic",
+            "deepseek",
+            "local"
+          ]
+        },
+        "model_id": {
+          "type": "string"
+        },
+        "model_snapshot": {
+          "type": "string"
+        }
+      }
+    },
+    "run_idx": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "experiment_id": {
+      "type": "string"
+    },
+    "git_commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "case_pass": {
+      "type": "boolean",
+      "description": "true iff all four stages passed. Equivalent to: stages.execution.pass AND stages.accuracy.pass AND stages.runtime.pass AND stages.method.pass."
+    },
+    "failure_code": {
+      "type": "string",
+      "enum": [
+        "F-Exec",
+        "F-Acc",
+        "F-Time",
+        "F-Method",
+        "NONE"
+      ],
+      "description": "NONE iff case_pass=true."
+    },
+    "failure_subcategory": {
+      "type": "string",
+      "description": "Optional sub-category, e.g. 'F-Method.MissingInfSupPair'."
+    },
+    "stages": {
+      "type": "object",
+      "required": [
+        "execution",
+        "accuracy",
+        "runtime",
+        "method"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "execution": {
+          "type": "object",
+          "required": [
+            "pass",
+            "ran_to_completion"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "pass": {
+              "type": "boolean"
+            },
+            "ran_to_completion": {
+              "type": "boolean"
+            },
+            "output_shape": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "output_dtype": {
+              "type": "string"
+            },
+            "all_finite": {
+              "type": "boolean"
+            },
+            "exit_code": {
+              "type": "integer"
+            },
+            "stdout_path": {
+              "type": "string"
+            },
+            "stderr_path": {
+              "type": "string"
+            },
+            "solution_path": {
+              "type": "string"
+            }
+          }
+        },
+        "accuracy": {
+          "type": "object",
+          "required": [
+            "pass"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "pass": {
+              "type": "boolean",
+              "description": "true iff relative L2 <= tau_acc."
+            },
+            "rel_l2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "abs_l2": {
+              "type": "number",
+              "minimum": 0
+            },
+            "linf": {
+              "type": "number",
+              "minimum": 0
+            },
+            "energy_norm": {
+              "type": "number",
+              "minimum": 0
+            },
+            "tau_acc_used": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "runtime": {
+          "type": "object",
+          "required": [
+            "pass"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "pass": {
+              "type": "boolean",
+              "description": "true iff mean wall_seconds (across reps) <= tau_time."
+            },
+            "wall_seconds_reps": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "wall_seconds_mean": {
+              "type": "number",
+              "minimum": 0
+            },
+            "tau_time_used": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "method": {
+          "type": "object",
+          "required": [
+            "pass",
+            "checks"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "pass": {
+              "type": "boolean",
+              "description": "true iff all heuristic rules passed AND (if invoked) the LLM-judge verdict was 'appropriate'."
+            },
+            "checks": {
+              "type": "array",
+              "description": "Per-rule verdicts from evaluator/method_appropriateness.py.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "rule_id",
+                  "passed"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "rule_id": {
+                    "type": "string"
+                  },
+                  "rule_description": {
+                    "type": "string"
+                  },
+                  "passed": {
+                    "type": "boolean"
+                  },
+                  "evidence": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "llm_judge_invoked": {
+              "type": "boolean",
+              "default": false
+            },
+            "llm_judge_verdict": {
+              "enum": [
+                "appropriate",
+                "inappropriate",
+                "borderline",
+                "not_applicable"
+              ]
+            },
+            "llm_judge_rationale": {
+              "type": "string"
+            },
+            "llm_judge_model": {
+              "type": "string"
+            },
+            "human_verified": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Paths to the files in the per-run artifact directory.",
+      "properties": {
+        "prompt_md": {
+          "type": "string"
+        },
+        "trace_jsonl": {
+          "type": "string"
+        },
+        "final_code": {
+          "type": "string"
+        },
+        "stdout_log": {
+          "type": "string"
+        },
+        "stderr_log": {
+          "type": "string"
+        },
+        "solution_npz": {
+          "type": "string"
+        },
+        "meta_json": {
+          "type": "string"
+        },
+        "hash_json": {
+          "type": "string"
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "solver_info": {
+          "type": "string",
+          "description": "Free-form: which solver was used, which preconditioner, etc."
+        },
+        "container_image": {
+          "type": "string"
+        },
+        "container_image_digest": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "cpu_seconds": {
+          "type": "number"
+        },
+        "peak_rss_bytes": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "case_pass": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "failure_code": {
+            "const": "NONE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "case_pass": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "failure_code": {
+            "enum": [
+              "F-Exec",
+              "F-Acc",
+              "F-Time",
+              "F-Method"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

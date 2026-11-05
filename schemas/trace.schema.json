@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pdevibench.org/schemas/trace.schema.json",
+  "title": "AgentTrace",
+  "description": "Turn-by-turn record of an agent's interaction with a PDE case. One JSONL file per (case, agent, backbone, run_idx). Each line is a TraceEntry; the top-level schema below describes a single entry, with the JSONL file being a stream of entries that begins with a Header entry and ends with a Footer entry.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Header"
+    },
+    {
+      "$ref": "#/$defs/Turn"
+    },
+    {
+      "$ref": "#/$defs/ToolCall"
+    },
+    {
+      "$ref": "#/$defs/ToolResult"
+    },
+    {
+      "$ref": "#/$defs/Footer"
+    }
+  ],
+  "$defs": {
+    "Header": {
+      "type": "object",
+      "required": [
+        "entry_type",
+        "schema_version",
+        "case_id",
+        "agent",
+        "backbone",
+        "run_idx",
+        "started_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "entry_type": {
+          "const": "header"
+        },
+        "schema_version": {
+          "type": "string",
+          "const": "1.0"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "agent": {
+          "enum": [
+            "codex",
+            "claude_code",
+            "openhands",
+            "aider"
+          ]
+        },
+        "backbone": {
+          "type": "object",
+          "required": [
+            "provider",
+            "model_id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "provider": {
+              "enum": [
+                "openai",
+                "anthropic",
+                "deepseek",
+                "local"
+              ]
+            },
+            "model_id": {
+              "type": "string",
+              "description": "Stable provider-side model identifier, e.g. 'gpt-5', 'claude-opus-4-7', 'deepseek-v3.2'."
+            },
+            "model_snapshot": {
+              "type": "string",
+              "description": "Provider-side snapshot identifier or build hash, when available."
+            },
+            "decoding": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "temperature": {
+                  "type": "number"
+                },
+                "top_p": {
+                  "type": "number"
+                },
+                "max_tokens": {
+                  "type": "integer"
+                },
+                "seed": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "run_idx": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "experiment_id": {
+          "type": "string",
+          "description": "Experiment identifier, e.g. 'phase2_wave1_codex_scipy_20260522T030958Z'."
+        },
+        "git_commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$",
+          "description": "Repo commit hash at run time."
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "prompt_template_path": {
+          "type": "string"
+        },
+        "prompt_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "Turn": {
+      "type": "object",
+      "required": [
+        "entry_type",
+        "turn_index",
+        "role",
+        "content",
+        "timestamp"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "entry_type": {
+          "const": "turn"
+        },
+        "turn_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "enum": [
+            "system",
+            "user",
+            "assistant"
+          ]
+        },
+        "content": {
+          "type": "string",
+          "description": "Full content of the turn (Markdown). The full prompt and the full response are recorded."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "token_count_in": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "token_count_out": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "wall_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "ToolCall": {
+      "type": "object",
+      "required": [
+        "entry_type",
+        "turn_index",
+        "tool",
+        "arguments",
+        "timestamp"
+      ],
+      "additionalProperties": false,
+      "description": "An invocation of a tool (filesystem read/write, shell, or library doc lookup) by the agent.",
+      "properties": {
+        "entry_type": {
+          "const": "tool_call"
+        },
+        "turn_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "call_id": {
+          "type": "string"
+        },
+        "tool": {
+          "type": "string"
+        },
+        "arguments": {
+          "type": "object"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ToolResult": {
+      "type": "object",
+      "required": [
+        "entry_type",
+        "call_id",
+        "result",
+        "timestamp"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "entry_type": {
+          "const": "tool_result"
+        },
+        "call_id": {
+          "type": "string"
+        },
+        "result": {
+          "type": "string",
+          "description": "Truncated to 64 KiB; full result lives in stdout.log / stderr.log."
+        },
+        "truncated": {
+          "type": "boolean",
+          "default": false
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Footer": {
+      "type": "object",
+      "required": [
+        "entry_type",
+        "completed_at",
+        "status",
+        "final_code_path",
+        "wall_seconds_total"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "entry_type": {
+          "const": "footer"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "agent_error",
+            "timeout",
+            "interrupted"
+          ],
+          "description": "ok = agent declared done; agent_error = unrecoverable runner error; timeout = exceeded per-case agent budget (separate from evaluator timeout); interrupted = manual kill."
+        },
+        "status_reason": {
+          "type": "string"
+        },
+        "final_code_path": {
+          "type": "string"
+        },
+        "final_code_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "wall_seconds_total": {
+          "type": "number",
+          "minimum": 0
+        },
+        "token_total_in": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "token_total_out": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "n_turns": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "n_tool_calls": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

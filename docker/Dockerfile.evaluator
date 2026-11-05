@@ -1,0 +1,50 @@
+# Evaluator image: SciPy, SymPy and schema validation, without finite-element libraries.
+#
+# Build:
+#   docker build -t pdevibench/evaluator:0.1 -f docker/Dockerfile.evaluator .
+
+FROM python:3.11.10-slim-bookworm
+
+LABEL org.opencontainers.image.title="pdevibench/evaluator"
+LABEL org.opencontainers.image.version="0.1"
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    OMP_NUM_THREADS=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libhdf5-dev \
+        build-essential \
+        git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install \
+        "numpy==1.26.4" \
+        "scipy==1.13.1" \
+        "sympy==1.13.3" \
+        "matplotlib==3.9.2" \
+        "pandas==2.2.3" \
+        "jsonschema==4.23.0" \
+        "pyyaml==6.0.2" \
+        "pydantic==2.13.4" \
+        "typer==0.12.5" \
+        "rich==13.9.4" \
+        "filelock==3.16.1" \
+        "tqdm==4.66.5" \
+        "h5py==3.12.1" \
+        "meshio==5.3.5" \
+        "scikit-learn==1.5.2" \
+        "statsmodels==0.14.4"
+
+WORKDIR /opt/pdevibench
+COPY pyproject.toml /opt/pdevibench/pyproject.toml
+COPY schemas/ /opt/pdevibench/schemas/
+
+RUN useradd -ms /bin/bash runner && chown -R runner:runner /opt/pdevibench
+USER runner
+
+ENTRYPOINT ["python"]
+CMD ["-c", "import numpy, scipy, sympy, jsonschema, h5py; print('evaluator image OK')"]
